@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Marks System</title>
+    <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Student Marks System</h2>
+        <p>A simple interactive demo to practice JavaScript arrays: add/remove/sort/calc avg/find max.</p>
+        <div id="stats"></div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Marks</th>
+                </tr>
+            </thead>
+            <tbody id="studentsTable"></tbody>
+        </table>
+        <div class="controls">
+            <button onclick="showHighest()">Show Highest</button>
+            <button onclick="showAverage()">Show Average</button>
+            <button onclick="sortByMarks()">Sort by Marks ↓</button>
+            <button onclick="resetSample()">Reset Sample</button>
+            <button onclick="removeLast()">Remove Last</button>
+        </div>
+        <div class="add-student">
+            <input type="text" id="studentName" placeholder="Student name">
+            <input type="number" id="studentMarks" placeholder="Marks (0-100)" min="0" max="100">
+            <button onclick="addStudent()">Add Student</button>
+        </div>
+        <div id="message"></div>
+    </div>
+    <script src="students.js"></script>
+    <script>
+        const expenses = [];
+
+        function addExpense() {
+            const name = document.getElementById('expense').value.trim();
+            const amount = parseFloat(document.getElementById('amount').value);
+            const description = document.getElementById('description').value.trim();
+            const date = document.getElementById('date').value.trim();
+
+            if (name && !isNaN(amount) && description && date) {
+                const expense = { name, amount, description, date };
+                expenses.push(expense);
+            } else {
+                alert('Please fill in all fields correctly.');
+                return;
+            }
+
+            document.getElementById('expense').value = '';
+            document.getElementById('amount').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('date').value = '';
+
+            renderTable();
+        }
+
+        function deleteExpense(index) {
+            expenses.splice(index, 1);
+            renderTable();
+        }
+
+        function renderTable() {
+            const table = document.querySelector("table tbody");
+            if (!table) {
+                const newBody = document.createElement("tbody");
+                document.querySelector("table").appendChild(newBody);
+            }
+            const tbody = document.querySelector("table tbody");
+            tbody.innerHTML = "";
+
+            expenses.forEach((exp, index) => {
+                const row = document.createElement("tr");
+
+                row.innerHTML = `
+                    <td>${exp.name}</td>
+                    <td>${exp.amount}</td>
+                    <td>${exp.description}</td>
+                    <td>${exp.date}</td>
+                    <td><button onclick="deleteExpense(${index})">Delete</button></td>
+                `;
+
+                tbody.appendChild(row);
+            });
+        }
+    </script>
+</body>
+</html>
